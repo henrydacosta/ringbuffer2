@@ -1,3 +1,4 @@
+/*
 MIT License
 
 Copyright (c) 2025 Henry da Costa
@@ -19,3 +20,23 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+#ifndef _RINGBUFFERTESTS_H
+#define _RINGBUFFERTESTS_H
+
+#include <stdbool.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern bool RingBuffer_test(void);
+extern bool RingBufferRo_test(void);
+extern bool RingBufferWo_test(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // _RINGBUFFERTESTS_H

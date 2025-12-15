@@ -1,3 +1,4 @@
+/*
 MIT License
 
 Copyright (c) 2025 Henry da Costa
@@ -19,3 +20,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+#include "RingBufferTests.h"
+#include <stdlib.h>
+
+int main() {
+    return (RingBuffer_test() && RingBufferRo_test() && RingBufferWo_test())
+               ? EXIT_SUCCESS
+               : EXIT_FAILURE;
+}
