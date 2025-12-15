@@ -27,6 +27,7 @@ SOFTWARE.
 #include "RingBufferRo.h"
 #include "RingBufferWo.h"
 #include "test.h"
+#include <stdio.h>
 #include <string.h>
 
 #define BUFF_SIZE 15
@@ -52,13 +53,13 @@ static bool isFull(RingBuffer *rb, void *data, size_t cap) {
            !RingBuffer_isEmpty(rb) && RingBuffer_isFull(rb);
 }
 
-static bool ro_is_reset(RingBufferRo *rb, void *data, size_t cap) {
+static bool Ro_isReset(RingBufferRo *rb, void *data, size_t cap) {
     return (RingBufferRo_getDataPointer(rb) == data) &&
            (RingBufferRo_getByteCapacity(rb) == cap) &&
            (RingBufferRo_getReadBytePosition(rb) == 0);
 }
 
-static bool wo_is_reset(RingBufferWo *rb, void *data, size_t cap) {
+static bool Wo_isReset(RingBufferWo *rb, void *data, size_t cap) {
     return (RingBufferWo_getDataPointer(rb) == data) &&
            (RingBufferWo_getByteCapacity(rb) == cap) &&
            (RingBufferWo_getWriteBytePosition(rb) == 0);
@@ -274,25 +275,25 @@ bool RingBufferRo_test(void) {
     TEST(!RingBufferRo_initialize(&rb, NULL, BUFF_SIZE));
     TEST(!RingBufferRo_initialize(&rb, buff, 0));
     TEST(RingBufferRo_initialize(&rb, buff, BUFF_SIZE));
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferRo_reset(&rb));
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferRo_getDataPointer(NULL) == NULL);
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
     TEST(RingBufferRo_getDataPointer(&rb) == buff);
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferRo_getByteCapacity(NULL) == 0);
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
     TEST(RingBufferRo_getByteCapacity(&rb) == BUFF_SIZE);
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferRo_getReadBytePosition(NULL) == 0);
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
     TEST(RingBufferRo_getReadBytePosition(&rb) == 0);
-    TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
 
     for (size_t n = 0; n <= BUFF_SIZE; ++n) {
         RingBufferRo_initialize(&rb, buff, BUFF_SIZE);
@@ -321,7 +322,7 @@ bool RingBufferRo_test(void) {
 
         memset(buff_read, 0, n);
         TEST(RingBufferRo_peekBytes(&rb, buff_read, n) == n);
-        TEST(ro_is_reset(&rb, buff, BUFF_SIZE));
+        TEST(Ro_isReset(&rb, buff, BUFF_SIZE));
         TEST(strncmp(buff_read, buff, n) == 0);
     }
 
@@ -356,32 +357,32 @@ bool RingBufferWo_test(void) {
     TEST(!RingBufferWo_initialize(&rb, NULL, BUFF_SIZE));
     TEST(!RingBufferWo_initialize(&rb, buff, 0));
     TEST(RingBufferWo_initialize(&rb, buff, BUFF_SIZE));
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferWo_reset(&rb));
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferWo_getDataPointer(NULL) == NULL);
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
     TEST(RingBufferWo_getDataPointer(&rb) == buff);
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferWo_getByteCapacity(NULL) == 0);
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
     TEST(RingBufferWo_getByteCapacity(&rb) == BUFF_SIZE);
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
 
     TEST(RingBufferWo_getWriteBytePosition(NULL) == 0);
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
     TEST(RingBufferWo_getWriteBytePosition(&rb) == 0);
-    TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+    TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
 
     for (size_t n = 0; n <= BUFF_SIZE; ++n) {
         RingBufferWo_initialize(&rb, buff, BUFF_SIZE);
         TEST(RingBufferWo_writeBytes(NULL, buff_writeBytes, n) == 0);
-        TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+        TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
         TEST(RingBufferWo_writeBytes(&rb, NULL, n) == 0);
-        TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+        TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
 
         memset(buff, 0, n);
         TEST(RingBufferWo_writeBytes(&rb, buff_writeBytes, n) == n);
@@ -392,7 +393,7 @@ bool RingBufferWo_test(void) {
         TEST(strncmp(buff, buff_writeBytes, n) == 0);
 
         TEST(RingBufferWo_reset(&rb));
-        TEST(wo_is_reset(&rb, buff, BUFF_SIZE));
+        TEST(Wo_isReset(&rb, buff, BUFF_SIZE));
     }
 
     printf("%s: passed %llu out of %llu\n", __func__, tests_succeeded,
