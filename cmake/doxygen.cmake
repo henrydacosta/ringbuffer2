@@ -5,7 +5,7 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_JAVADOC_AUTOBRIEF YES)
     set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
     set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
-    set(DOXYGEN_PROJECT_NAME "Ring Buffer Library for C")
+    set(DOXYGEN_PROJECT_NAME "Ring Buffer Library in C")
     set(DOXYGEN_USE_MDFILE_AS_MAINPAGE ${CMAKE_SOURCE_DIR}/README.md)
     doxygen_add_docs(RingBufferDoc
         ${CMAKE_SOURCE_DIR}/README.md
